@@ -6,6 +6,7 @@ import Root from './Root';
 import Contact from './routes/Contact';
 import Home from './routes/Home';
 import './index.css';
+import Search from './routes/Search';
 
 const router = createBrowserRouter([
   {
@@ -20,7 +21,11 @@ const router = createBrowserRouter([
       {
         path: 'contacts/:contactId',
         element: <Contact />
-      }
+      },
+      {
+        path: 'search',
+        element: <Search />
+      },
     ]
   }
 ]);
