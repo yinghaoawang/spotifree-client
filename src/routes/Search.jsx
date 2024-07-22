@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { PlayerContext, Statuses } from '../contexts/PlayerContext';
 
 function Search() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState(null);
   const [searchParams] = useSearchParams();
+  const { setVideoId, setStatus } = useContext(PlayerContext);
 
   useEffect(() => {
     const sq = searchParams.get('q');
@@ -39,6 +41,7 @@ function Search() {
   const handleClickSearchResult = (videoId) => {
     const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
     console.log(videoUrl);
+    setVideoId(videoId);
   };
 
   return (

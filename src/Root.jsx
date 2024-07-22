@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import './Root.css';
-import MediaTray from './components/MediaTray';
+import PlayerTray from './components/PlayerTray';
 
 export default function Root() {
   return (
@@ -10,7 +10,7 @@ export default function Root() {
       <div id='detail'>
         <Outlet />
       </div>
-      <MediaTray />
+      <PlayerTray />
     </div>
   );
 }

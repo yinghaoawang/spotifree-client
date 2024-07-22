@@ -7,6 +7,7 @@ import Contact from './routes/Contact';
 import Home from './routes/Home';
 import './index.css';
 import Search from './routes/Search';
+import { PlayerProvider } from './contexts/PlayerContext';
 
 const router = createBrowserRouter([
   {
@@ -25,13 +26,15 @@ const router = createBrowserRouter([
       {
         path: 'search',
         element: <Search />
-      },
+      }
     ]
   }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <PlayerProvider>
+      <RouterProvider router={router} />
+    </PlayerProvider>
   </React.StrictMode>
 );
