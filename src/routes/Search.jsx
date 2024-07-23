@@ -16,6 +16,11 @@ function Search() {
     }
   }, []);
 
+  useEffect(() => {
+    const searchEl = document.getElementById('search');
+    searchEl.focus();
+  }, []);
+
   const navigate = useNavigate();
 
   const search = async () => {
@@ -48,6 +53,7 @@ function Search() {
     <>
       <form onSubmit={handleSubmitSearch}>
         <input
+          id='search'
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           disabled={isSearching}

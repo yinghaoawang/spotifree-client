@@ -3,7 +3,7 @@ import { opts, PlayerContext, Statuses } from '../contexts/PlayerContext';
 import Youtube from 'react-youtube';
 
 export default function Player() {
-  const { videoId, setStatus, setPlayer } =
+  const { videoId, setStatus, player, setPlayer, volume, repeat } =
     useContext(PlayerContext);
 
   return (
@@ -13,12 +13,19 @@ export default function Player() {
       opts={opts}
       onReady={(e) => {
         setPlayer(e.target);
-        e.target.pauseVideo();
         setStatus(Statuses.PAUSED);
+        e.target.pauseVideo();
+        e.target.setVolume(volume);
       }}
       onPlay={() => setStatus(Statuses.PLAYING)}
       onPause={() => setStatus(Statuses.PAUSED)}
-      onEnd={() => setStatus(Statuses.PAUSED)}
+      onEnd={() => {
+        if (repeat) {
+          player.playVideo();
+        } else {
+          setStatus(Statuses.PAUSED);
+        }
+      }}
     />
   );
 }

@@ -22,7 +22,8 @@ export const PlayerProvider = ({ children }) => {
   const [videoId, setVideoId] = useState('');
   const [status, setStatus] = useState(Statuses.UNSTARTED);
   const [player, setPlayer] = useState();
-  const [repeat, setRepeat] = useState();
+  const [repeat, setRepeat] = useState(false);
+  const [volume, setVolume] = useState(20);
 
   return (
     <PlayerContext.Provider
@@ -32,7 +33,11 @@ export const PlayerProvider = ({ children }) => {
         status,
         setStatus,
         player,
-        setPlayer
+        setPlayer,
+        volume,
+        setVolume,
+        repeat,
+        setRepeat
       }}
     >
       {children}
