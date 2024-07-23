@@ -3,6 +3,14 @@ import PropTypes from 'prop-types';
 
 export const PlayerContext = createContext();
 
+export const opts = {
+  height: '0',
+  width: '0',
+  playerVars: {
+    autoplay: 1
+  }
+};
+
 export const Statuses = Object.freeze({
   UNSTARTED: -1,
   STOPPED: 0,
@@ -14,6 +22,7 @@ export const PlayerProvider = ({ children }) => {
   const [videoId, setVideoId] = useState('');
   const [status, setStatus] = useState(Statuses.UNSTARTED);
   const [player, setPlayer] = useState();
+  const [repeat, setRepeat] = useState();
 
   return (
     <PlayerContext.Provider
