@@ -69,7 +69,7 @@ export default function PlayerTray() {
           padding: 10
         }}
       >
-        <div style={{ display: 'flex', wwidth: '300px' }}>left</div>
+        <div style={{ display: 'flex', width: '300px' }}>left</div>
         <div
           style={{
             display: 'flex',
