@@ -69,7 +69,7 @@ export default function PlayerTray() {
           padding: 10
         }}
       >
-        <div>left</div>
+        <div style={{ display: 'flex', wwidth: '300px' }}>left</div>
         <div
           style={{
             display: 'flex',
@@ -138,7 +138,14 @@ export default function PlayerTray() {
             <span>{SecondsToTimeString(maxTime)}</span>
           </div>
         </div>
-        <div style={{ display: 'flex', placeItems: 'center' }}>
+        <div
+          style={{
+            display: 'flex',
+            placeItems: 'center',
+            width: '300px',
+            justifyContent: 'end'
+          }}
+        >
           🔈
           <input
             type='range'
