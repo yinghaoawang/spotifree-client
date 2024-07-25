@@ -15,7 +15,9 @@ export const Statuses = Object.freeze({
   UNSTARTED: -1,
   STOPPED: 0,
   PLAYING: 1,
-  PAUSED: 2
+  PAUSED: 2,
+  BUFFERING: 3,
+  VIDEO_CUED: 5
 });
 
 export const PlayerProvider = ({ children }) => {

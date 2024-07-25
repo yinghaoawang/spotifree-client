@@ -8,6 +8,7 @@ import Home from './routes/Home';
 import './index.css';
 import Search from './routes/Search';
 import { PlayerProvider } from './contexts/PlayerContext';
+import { SongProvider } from './contexts/SongContext';
 
 const router = createBrowserRouter([
   {
@@ -34,7 +35,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <PlayerProvider>
-      <RouterProvider router={router} />
+      <SongProvider>
+        <RouterProvider router={router} />
+      </SongProvider>
     </PlayerProvider>
   </React.StrictMode>
 );

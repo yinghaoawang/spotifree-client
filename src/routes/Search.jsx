@@ -1,13 +1,28 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { PlayerContext, Statuses } from '../contexts/PlayerContext';
+import { PlayerContext } from '../contexts/PlayerContext';
+import { SongContext } from '../contexts/SongContext';
+
+const getDataFromSearchItem = (searchItem) => {
+  const artSrc = searchItem.snippet.thumbnails.default.url;
+  const { title, channelTitle } = searchItem.snippet;
+  const { videoId } = searchItem.id;
+
+  return { title, channelTitle, artSrc, videoId };
+};
 
 function Search() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState(null);
   const [searchParams] = useSearchParams();
-  const { setVideoId, setStatus } = useContext(PlayerContext);
+  const { setVideoId } = useContext(PlayerContext);
+  const {
+    setTitle,
+    setArtist,
+    setArtSrc,
+    setVideoId: setSongVideoId
+  } = useContext(SongContext);
 
   useEffect(() => {
     const sq = searchParams.get('q');
@@ -43,10 +58,16 @@ function Search() {
     search();
   };
 
-  const handleClickSearchResult = (videoId) => {
+  const handleClickSearchResult = (searchItem) => {
+    const { videoId, artSrc, title, channelTitle } =
+      getDataFromSearchItem(searchItem);
     const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
-    console.log(videoUrl);
+    
     setVideoId(videoId);
+    setSongVideoId(videoId);
+    setArtSrc(artSrc);
+    setTitle(title);
+    setArtist(channelTitle);
   };
 
   return (
@@ -68,9 +89,9 @@ function Search() {
               <div
                 key={index}
                 style={{ display: 'flex', cursor: 'pointer' }}
-                onClick={() => handleClickSearchResult(searchItem.id.videoId)}
+                onClick={() => handleClickSearchResult(searchItem)}
               >
-                <img src={searchItem.snippet.thumbnails.default.url} />
+                <img src={getDataFromSearchItem(searchItem).artSrc} />
                 <div
                   style={{
                     display: 'flex',
@@ -78,8 +99,10 @@ function Search() {
                     margin: '10px'
                   }}
                 >
-                  <h3 style={{ margin: 0 }}>{searchItem.snippet.title}</h3>
-                  <div>{searchItem.snippet.channelTitle}</div>
+                  <h3 style={{ margin: 0 }}>
+                    {getDataFromSearchItem(searchItem).title}
+                  </h3>
+                  <div>{getDataFromSearchItem(searchItem).channelTitle}</div>
                 </div>
               </div>
             ))}

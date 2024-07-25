@@ -1,12 +1,16 @@
 import { useContext, useEffect, useState } from 'react';
 import { PlayerContext, Statuses } from '../contexts/PlayerContext';
-import YouTube from 'react-youtube';
+import { SongContext } from '../contexts/SongContext';
 
 const SecondsToTimeString = (seconds) => {
   if (seconds == null) return 0;
   var date = new Date(0);
   date.setSeconds(seconds);
   var timeString = date.toISOString().substring(11, 19);
+  if (timeString.substring(0, 3) === '00:')
+    timeString = timeString.substring(3);
+  if (timeString[0] === '0' && timeString[1] !== '0')
+    timeString = timeString.substring(1);
   return timeString.length > 0 ? timeString : 0;
 };
 
@@ -21,6 +25,7 @@ export default function PlayerTray() {
     repeat,
     setRepeat
   } = useContext(PlayerContext);
+  const { title, artist, artSrc } = useContext(SongContext);
 
   const [maxTime, setMaxTime] = useState(0);
   const [currTime, setCurrTime] = useState(0);
@@ -69,12 +74,26 @@ export default function PlayerTray() {
           padding: 10
         }}
       >
-        <div style={{ display: 'flex', width: '300px' }}>left</div>
+        <div style={{ display: 'flex', width: '300px', gap: '10px' }}>
+          <img src={artSrc} />
+          <div
+            style={{
+              fontSize: 14,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center'
+            }}
+          >
+            <div style={{ fontWeight: 'bold' }}>{title}</div>
+            <div>{artist}</div>
+          </div>
+        </div>
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
-            placeItems: 'center'
+            placeItems: 'center',
+            gap: '5px'
           }}
         >
           <div>
@@ -87,7 +106,8 @@ export default function PlayerTray() {
             <button
               onClick={handleClickPlay}
               disabled={
-                status === !Statuses.UNSTARTED ||
+                status === Statuses.UNSTARTED ||
+                status === Statuses.BUFFERING ||
                 videoId == null ||
                 videoId.trim().length === 0
               }
@@ -121,7 +141,7 @@ export default function PlayerTray() {
               🔁
             </button>
           </div>
-          <div>
+          <div style={{ display: 'flex', placeItems: 'center', gap: '3px' }}>
             <span>{SecondsToTimeString(currTime)}</span>
             <input
               type='range'
@@ -143,7 +163,8 @@ export default function PlayerTray() {
             display: 'flex',
             placeItems: 'center',
             width: '300px',
-            justifyContent: 'end'
+            justifyContent: 'end',
+            gap: '3px'
           }}
         >
           🔈
