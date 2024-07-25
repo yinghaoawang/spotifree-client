@@ -1,5 +1,6 @@
 import React, { createContext, useState } from 'react';
 import PropTypes from 'prop-types';
+import usePersistedState from '../hooks/usePersistedState';
 
 export const PlayerContext = createContext();
 
@@ -21,11 +22,11 @@ export const Statuses = Object.freeze({
 });
 
 export const PlayerProvider = ({ children }) => {
-  const [videoId, setVideoId] = useState('');
-  const [status, setStatus] = useState(Statuses.UNSTARTED);
   const [player, setPlayer] = useState();
-  const [repeat, setRepeat] = useState(false);
-  const [volume, setVolume] = useState(20);
+  const [status, setStatus] = useState(Statuses.UNSTARTED);
+  const [videoId, setVideoId] = usePersistedState('videoId', '');
+  const [repeat, setRepeat] = usePersistedState('repeat', false);
+  const [volume, setVolume] = usePersistedState('volume', 20);
 
   return (
     <PlayerContext.Provider
