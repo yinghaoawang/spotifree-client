@@ -16,6 +16,25 @@
   overflow: auto;
 }
 
+#navbar {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+#navbar ul {
+  display: flex;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+#navbar ul li {
+  list-style: none;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;

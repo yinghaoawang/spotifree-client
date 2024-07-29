@@ -3,12 +3,14 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ErrorPage from './routes/Error';
 import Root from './Root';
-import Contact from './routes/Contact';
 import Home from './routes/Home';
 import './index.css';
 import Search from './routes/Search';
 import { PlayerProvider } from './contexts/PlayerContext';
 import { SongProvider } from './contexts/SongContext';
+import RegisterPage from './routes/Register';
+import LoginPage from './routes/Login';
+import { UserProvider } from './contexts/UserContext';
 
 const router = createBrowserRouter([
   {
@@ -21,12 +23,16 @@ const router = createBrowserRouter([
         element: <Home />
       },
       {
-        path: 'contacts/:contactId',
-        element: <Contact />
-      },
-      {
         path: 'search',
         element: <Search />
+      },
+      {
+        path: 'login',
+        element: <LoginPage />
+      },
+      {
+        path: 'register',
+        element: <RegisterPage />
       }
     ]
   }
@@ -34,10 +40,12 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <PlayerProvider>
-      <SongProvider>
-        <RouterProvider router={router} />
-      </SongProvider>
-    </PlayerProvider>
+    <UserProvider>
+      <PlayerProvider>
+        <SongProvider>
+          <RouterProvider router={router} />
+        </SongProvider>
+      </PlayerProvider>
+    </UserProvider>
   </React.StrictMode>
 );

@@ -37,6 +37,8 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 button {
@@ -69,4 +71,32 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.login-page, .register-page {
+  width: 400px;
+}
+
+.form-group {
+  margin-bottom: 5px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
 }
