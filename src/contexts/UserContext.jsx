@@ -1,5 +1,4 @@
 import React, { createContext } from 'react';
-import PropTypes from 'prop-types';
 import usePersistedState from '../hooks/usePersistedState';
 
 const UserContext = createContext();
@@ -31,7 +30,3 @@ export const UserProvider = ({ children }) => {
 };
 
 export default UserContext;
-
-UserProvider.propTypes = {
-  children: PropTypes.node.isRequired
-};

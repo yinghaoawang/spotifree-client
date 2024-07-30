@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import usePersistedState from '../hooks/usePersistedState';
 import UserContext from './UserContext';
 
@@ -64,8 +63,4 @@ export const SongProvider = ({ children }) => {
       {children}
     </SongContext.Provider>
   );
-};
-
-SongProvider.propTypes = {
-  children: PropTypes.node.isRequired
 };

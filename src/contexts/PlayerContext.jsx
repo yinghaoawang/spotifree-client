@@ -1,5 +1,4 @@
 import React, { createContext, useState } from 'react';
-import PropTypes from 'prop-types';
 import usePersistedState from '../hooks/usePersistedState';
 
 export const PlayerContext = createContext();
@@ -46,8 +45,4 @@ export const PlayerProvider = ({ children }) => {
       {children}
     </PlayerContext.Provider>
   );
-};
-
-PlayerProvider.propTypes = {
-  children: PropTypes.node.isRequired
 };
