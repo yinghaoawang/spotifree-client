@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { PlayerContext } from '../contexts/PlayerContext';
 import { SongContext } from '../contexts/SongContext';
+import UserContext from '../contexts/UserContext';
 
 const getDataFromSearchItem = (searchItem) => {
   const artSrc = searchItem.snippet.thumbnails.default.url;
@@ -17,11 +18,13 @@ function Search() {
   const [searchResults, setSearchResults] = useState(null);
   const [searchParams] = useSearchParams();
   const { setVideoId } = useContext(PlayerContext);
+  const { token } = useContext(UserContext);
   const {
     setTitle,
     setArtist,
     setArtSrc,
-    setVideoId: setSongVideoId
+    setVideoId: setSongVideoId,
+    setPlays
   } = useContext(SongContext);
 
   useEffect(() => {
@@ -58,16 +61,40 @@ function Search() {
     search();
   };
 
-  const handleClickSearchResult = (searchItem) => {
+  const handleClickSearchResult = async (searchItem) => {
     const { videoId, artSrc, title, channelTitle } =
       getDataFromSearchItem(searchItem);
     const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
-    
+
     setVideoId(videoId);
     setSongVideoId(videoId);
     setArtSrc(artSrc);
     setTitle(title);
     setArtist(channelTitle);
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_API_URL}/user/get_plays`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({ video_id: videoId })
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Play count fetch failed');
+      }
+
+      const { playCount } = await response.json();
+      setPlays(playCount);
+    } catch (err) {
+      console.error(err);
+      setPlays(0);
+    }
   };
 
   return (

@@ -1,10 +1,16 @@
 import { useContext } from 'react';
 import { opts, PlayerContext, Statuses } from '../contexts/PlayerContext';
+import { SongContext } from '../contexts/SongContext';
 import Youtube from 'react-youtube';
+import UserContext from '../contexts/UserContext';
 
 export default function Player() {
-  const { videoId, setStatus, player, setPlayer, volume, repeat } =
+  const { setStatus, player, setPlayer, volume, repeat } =
     useContext(PlayerContext);
+
+  const { videoId, artSrc, title, artist, setPlays } = useContext(SongContext);
+
+  const { token } = useContext(UserContext);
 
   return (
     <Youtube
@@ -19,7 +25,37 @@ export default function Player() {
       }}
       onPlay={() => setStatus(Statuses.PLAYING)}
       onPause={() => setStatus(Statuses.PAUSED)}
-      onEnd={() => {
+      onEnd={async (e) => {
+        try {
+          console.log(token);
+          setPlays((prevPlays) => prevPlays + 1);
+          const response = await fetch(
+            `${import.meta.env.VITE_APP_API_URL}/user/add_play`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+              },
+              body: JSON.stringify({
+                video_id: videoId,
+                title,
+                artist_name: artist,
+                duration: e.target.getDuration(),
+                art_src: artSrc
+              })
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error('Add play failed');
+          }
+          const res = await response.json();
+          console.log(res);
+        } catch (err) {
+          console.error(err);
+        }
+
         if (repeat) {
           player.playVideo();
         } else {

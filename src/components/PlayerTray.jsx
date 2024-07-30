@@ -14,6 +14,121 @@ const SecondsToTimeString = (seconds) => {
   return timeString.length > 0 ? timeString : 0;
 };
 
+const MainControls = ({
+  handleClickPlay,
+  videoId,
+  repeat,
+  setRepeat,
+  player,
+  currTime,
+  maxTime,
+  status
+}) => (
+  <div
+    style={{
+      display: 'flex',
+      flexDirection: 'column',
+      placeItems: 'center',
+      gap: '5px'
+    }}
+  >
+    <div>
+      <button
+        style={{ padding: 5, borderRadius: 100, pointerEvents: 'none' }}
+        disabled
+      >
+        🔀
+      </button>
+      <button
+        onClick={handleClickPlay}
+        disabled={
+          status === Statuses.UNSTARTED ||
+          status === Statuses.BUFFERING ||
+          videoId == null ||
+          videoId.trim().length === 0
+        }
+        style={{
+          marginLeft: 10,
+          marginRight: 10,
+          borderRadius: 100,
+          padding: 13
+        }}
+      >
+        {status === Statuses.PLAYING ? '⏸️' : '▶️'}
+      </button>
+      <button
+        style={{
+          padding: 5,
+          borderRadius: 100,
+          opacity: repeat ? 1 : 0.5
+        }}
+        onClick={() => {
+          if (player == null) return;
+
+          setRepeat((prevRepeat) => {
+            if (prevRepeat === true) {
+              return false;
+            } else {
+              return true;
+            }
+          });
+        }}
+      >
+        🔁
+      </button>
+    </div>
+    <div style={{ display: 'flex', placeItems: 'center', gap: '3px' }}>
+      <span>{SecondsToTimeString(currTime)}</span>
+      <input
+        type='range'
+        value={currTime}
+        onChange={(e) => {
+          let val = e.target.value;
+          if (val > maxTime) val = maxTime;
+          else if (val < 0) val = 0;
+          player.seekTo(val);
+        }}
+        min='0'
+        max={maxTime}
+      />
+      <span>{SecondsToTimeString(maxTime)}</span>
+    </div>
+  </div>
+);
+
+const VolumeSlider = ({ player, volume, setVolume }) => {
+  return (
+    <>
+      <div
+        style={{
+          display: 'flex',
+          placeItems: 'center',
+
+          justifyContent: 'end',
+          gap: '3px'
+        }}
+      >
+        🔈
+        <input
+          type='range'
+          value={volume}
+          onChange={(e) => {
+            let val = e.target.value;
+            console.log(e.target.value);
+            if (val > 100) val = 100;
+            else if (val < 0) val = 0;
+            player.setVolume(val);
+            setVolume(val);
+          }}
+          min='0'
+          max='100'
+        />
+        🔊
+      </div>
+    </>
+  );
+};
+
 export default function PlayerTray() {
   const {
     videoId,
@@ -25,7 +140,7 @@ export default function PlayerTray() {
     repeat,
     setRepeat
   } = useContext(PlayerContext);
-  const { title, artist, artSrc } = useContext(SongContext);
+  const { title, artist, artSrc, plays } = useContext(SongContext);
 
   const [maxTime, setMaxTime] = useState(0);
   const [currTime, setCurrTime] = useState(0);
@@ -88,101 +203,34 @@ export default function PlayerTray() {
             <div>{artist}</div>
           </div>
         </div>
+        <MainControls
+          handleClickPlay={handleClickPlay}
+          videoId={videoId}
+          repeat={repeat}
+          setRepeat={setRepeat}
+          player={player}
+          currTime={currTime}
+          maxTime={maxTime}
+          status={status}
+        />
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
-            placeItems: 'center',
-            gap: '5px'
+            gap: '5px',
+            width: '300px'
           }}
         >
-          <div>
-            <button
-              style={{ padding: 5, borderRadius: 100, pointerEvents: 'none' }}
-              disabled
-            >
-              🔀
-            </button>
-            <button
-              onClick={handleClickPlay}
-              disabled={
-                status === Statuses.UNSTARTED ||
-                status === Statuses.BUFFERING ||
-                videoId == null ||
-                videoId.trim().length === 0
-              }
-              style={{
-                marginLeft: 10,
-                marginRight: 10,
-                borderRadius: 100,
-                padding: 13
-              }}
-            >
-              {status === Statuses.PLAYING ? '⏸️' : '▶️'}
-            </button>
-            <button
-              style={{
-                padding: 5,
-                borderRadius: 100,
-                opacity: repeat ? 1 : 0.5
-              }}
-              onClick={() => {
-                if (player == null) return;
-
-                setRepeat((prevRepeat) => {
-                  if (prevRepeat === true) {
-                    return false;
-                  } else {
-                    return true;
-                  }
-                });
-              }}
-            >
-              🔁
-            </button>
-          </div>
-          <div style={{ display: 'flex', placeItems: 'center', gap: '3px' }}>
-            <span>{SecondsToTimeString(currTime)}</span>
-            <input
-              type='range'
-              value={currTime}
-              onChange={(e) => {
-                let val = e.target.value;
-                if (val > maxTime) val = maxTime;
-                else if (val < 0) val = 0;
-                player.seekTo(val);
-              }}
-              min='0'
-              max={maxTime}
-            />
-            <span>{SecondsToTimeString(maxTime)}</span>
-          </div>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            placeItems: 'center',
-            width: '300px',
-            justifyContent: 'end',
-            gap: '3px'
-          }}
-        >
-          🔈
-          <input
-            type='range'
-            value={volume}
-            onChange={(e) => {
-              let val = e.target.value;
-              console.log(e.target.value);
-              if (val > 100) val = 100;
-              else if (val < 0) val = 0;
-              player.setVolume(val);
-              setVolume(val);
+          <VolumeSlider player={player} volume={volume} setVolume={setVolume} />
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              marginRight: '60px'
             }}
-            min='0'
-            max='100'
-          />
-          🔊
+          >
+            Plays {plays}
+          </div>
         </div>
       </div>
     </>
