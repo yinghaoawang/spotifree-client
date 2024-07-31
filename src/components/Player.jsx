@@ -50,8 +50,8 @@ export default function Player() {
           if (!response.ok) {
             throw new Error('Add play failed');
           }
-          const res = await response.json();
-          console.log(res);
+          const json = await response.json();
+          setPlays(json.playCount);
         } catch (err) {
           console.error(err);
         }
