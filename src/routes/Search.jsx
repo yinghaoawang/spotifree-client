@@ -2,7 +2,8 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { PlayerContext } from '../contexts/PlayerContext';
 import { SongContext } from '../contexts/SongContext';
-import UserContext from '../contexts/UserContext';
+import { UserContext } from '../contexts/UserContext';
+import useFetch from '../hooks/useFetch';
 
 const getDataFromSearchItem = (searchItem) => {
   const artSrc = searchItem.snippet.thumbnails.default.url;
@@ -19,6 +20,7 @@ function Search() {
   const [searchParams] = useSearchParams();
   const { setVideoId } = useContext(PlayerContext);
   const { token } = useContext(UserContext);
+  const fetch = useFetch();
   const {
     setTitle,
     setArtist,
@@ -46,10 +48,7 @@ function Search() {
     setIsSearching(true);
 
     const searchRes = await fetch(
-      `${import.meta.env.VITE_APP_API_URL}/search/${searchQuery}`,
-      {
-        method: 'GET'
-      }
+      `${import.meta.env.VITE_APP_API_URL}/search/${searchQuery}`
     );
     const searchJson = await searchRes.json();
     setSearchResults(searchJson.data);

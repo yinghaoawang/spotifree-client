@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import UserContext from '../contexts/UserContext';
+import { UserContext } from '../contexts/UserContext';
 import { useContext } from 'react';
+import useFetch from '../hooks/useFetch';
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const { login } = useContext(UserContext);
+  const fetch = useFetch();
   const navigate = useNavigate();
 
   const handleChange = (e) => {

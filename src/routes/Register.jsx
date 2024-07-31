@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import useFetch from '../hooks/useFetch';
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -7,6 +8,7 @@ const RegisterPage = () => {
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const fetch = useFetch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;

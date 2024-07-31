@@ -1,7 +1,7 @@
 import React, { createContext } from 'react';
 import usePersistedState from '../hooks/usePersistedState';
 
-const UserContext = createContext();
+export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = usePersistedState('user', null);
@@ -28,5 +28,3 @@ export const UserProvider = ({ children }) => {
     </UserContext.Provider>
   );
 };
-
-export default UserContext;

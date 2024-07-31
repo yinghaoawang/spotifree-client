@@ -2,14 +2,15 @@ import { useContext } from 'react';
 import { opts, PlayerContext, Statuses } from '../contexts/PlayerContext';
 import { SongContext } from '../contexts/SongContext';
 import Youtube from 'react-youtube';
-import UserContext from '../contexts/UserContext';
+import { UserContext } from '../contexts/UserContext';
+import useFetch from '../hooks/useFetch';
 
 export default function Player() {
   const { setStatus, player, setPlayer, volume, repeat } =
     useContext(PlayerContext);
+  const fetch = useFetch();
 
   const { videoId, artSrc, title, artist, setPlays } = useContext(SongContext);
-
   const { token } = useContext(UserContext);
 
   return (
@@ -34,8 +35,7 @@ export default function Player() {
             {
               method: 'POST',
               headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`
+                'Content-Type': 'application/json'
               },
               body: JSON.stringify({
                 video_id: videoId,

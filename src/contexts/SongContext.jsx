@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import usePersistedState from '../hooks/usePersistedState';
-import UserContext from './UserContext';
+import { UserContext } from './UserContext';
+import useFetch from '../hooks/useFetch';
 
 export const SongContext = createContext();
 
@@ -11,6 +12,7 @@ export const SongProvider = ({ children }) => {
   const [videoId, setVideoId] = usePersistedState('songVideoId', null);
   const [plays, setPlays] = usePersistedState('plays', 0);
   const { token } = useContext(UserContext);
+  const fetch = useFetch();
 
   useEffect(() => {
     const fetchPlays = async () => {
@@ -21,8 +23,7 @@ export const SongProvider = ({ children }) => {
             {
               method: 'POST',
               headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`
+                'Content-Type': 'application/json'
               },
               body: JSON.stringify({ video_id: videoId })
             }
