@@ -43,8 +43,9 @@ export const SongProvider = ({ children }) => {
         setPlays(0);
       }
     };
+    console.log('fetchplays');
     fetchPlays();
-  }, []);
+  }, [token]);
 
   return (
     <SongContext.Provider
