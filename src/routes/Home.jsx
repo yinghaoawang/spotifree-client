@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import useFetch from '../hooks/useFetch';
+import useVideo from '../hooks/useVideo';
 
 function Root() {
   const [recentVideos, setRecentVideos] = useState([]);
   const [topUsers, setTopUsers] = useState([]);
+  const { playVideo } = useVideo();
   const fetch = useFetch();
 
   useEffect(() => {
@@ -52,8 +54,17 @@ function Root() {
                     style={{
                       display: 'flex',
                       flexDirection: 'column',
-                      width: '150px'
+                      width: '150px',
+                      cursor: 'pointer'
                     }}
+                    onClick={() =>
+                      playVideo(
+                        recentVideo.id,
+                        recentVideo.art_src,
+                        recentVideo.title,
+                        recentVideo.artist_name
+                      )
+                    }
                   >
                     <img style={{ width: '150px' }} src={recentVideo.art_src} />
                     <div>
@@ -88,7 +99,11 @@ function Root() {
                     }}
                   >
                     <img
-                      style={{ width: '120px', borderRadius: '120px', marginBottom: '5px' }}
+                      style={{
+                        width: '120px',
+                        borderRadius: '120px',
+                        marginBottom: '5px'
+                      }}
                       src={`https://randomuser.me/api/portraits/lego/${
                         topUser.id % 9
                       }.jpg`}
