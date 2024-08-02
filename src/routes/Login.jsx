@@ -25,9 +25,6 @@ const LoginPage = () => {
         `${import.meta.env.VITE_APP_API_URL}/auth/login`,
         {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
           body: JSON.stringify(formData)
         }
       );

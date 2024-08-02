@@ -9,6 +9,7 @@ const useFetch = () => {
       const response = await fetch(url, {
         ...options,
         headers: {
+          'Content-Type': 'application/json',
           ...options.headers,
           Authorization: `Bearer ${token}`
         }

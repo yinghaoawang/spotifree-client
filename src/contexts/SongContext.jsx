@@ -22,9 +22,6 @@ export const SongProvider = ({ children }) => {
             `${import.meta.env.VITE_APP_API_URL}/user/get_plays`,
             {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
               body: JSON.stringify({ video_id: videoId })
             }
           );

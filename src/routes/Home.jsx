@@ -12,7 +12,6 @@ function Root() {
     const fetchRecentVideos = async () => {
       const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/recent`);
       const json = await res.json();
-      console.log(json.recent);
       setRecentVideos([...json.recent]);
     };
     fetchRecentVideos();
@@ -24,7 +23,6 @@ function Root() {
         `${import.meta.env.VITE_APP_API_URL}/leaderboard`
       );
       const json = await res.json();
-      console.log(json.recent);
       setTopUsers([...json.top_users]);
     };
     fetchLeaderboard();

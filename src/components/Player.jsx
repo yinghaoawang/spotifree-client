@@ -34,9 +34,6 @@ export default function Player() {
             `${import.meta.env.VITE_APP_API_URL}/user/add_play`,
             {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
               body: JSON.stringify({
                 video_id: videoId,
                 title,
