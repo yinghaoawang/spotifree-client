@@ -193,14 +193,13 @@ export default function PlayerTray() {
           <img src={artSrc} />
           <div
             style={{
-              fontSize: 14,
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center'
             }}
           >
-            <div style={{ fontWeight: 'bold' }}>{title}</div>
-            <div>{artist}</div>
+            <div className='song-title'>{title}</div>
+            <div className='artist-name'>{artist}</div>
           </div>
         </div>
         <MainControls
