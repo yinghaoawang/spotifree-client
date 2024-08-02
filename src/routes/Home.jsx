@@ -3,16 +3,29 @@ import useFetch from '../hooks/useFetch';
 
 function Root() {
   const [recentVideos, setRecentVideos] = useState([]);
+  const [topUsers, setTopUsers] = useState([]);
   const fetch = useFetch();
 
   useEffect(() => {
-    const fetchRecent = async () => {
+    const fetchRecentVideos = async () => {
       const res = await fetch(`${import.meta.env.VITE_APP_API_URL}/recent`);
       const json = await res.json();
       console.log(json.recent);
       setRecentVideos([...json.recent]);
     };
-    fetchRecent();
+    fetchRecentVideos();
+  }, []);
+
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      const res = await fetch(
+        `${import.meta.env.VITE_APP_API_URL}/leaderboard`
+      );
+      const json = await res.json();
+      console.log(json.recent);
+      setTopUsers([...json.top_users]);
+    };
+    fetchLeaderboard();
   }, []);
 
   return (
@@ -50,7 +63,9 @@ function Root() {
                       <div className='text-ellipsis artist-name'>
                         {recentVideo.artist_name}
                       </div>
-                      <div style={{fontSize: '12px'}}>Played {recentVideo.play_count} times</div>
+                      <div style={{ fontSize: '12px' }}>
+                        Played {recentVideo.play_count} times
+                      </div>
                     </div>
                   </div>
                 );
@@ -59,7 +74,38 @@ function Root() {
           )}
         </section>
         <section className='leaderboard'>
-          <h2>Top Users</h2>
+          <h2>Top Users This Week</h2>
+          {recentVideos && recentVideos.length > 0 && (
+            <div style={{ display: 'flex', gap: '10px', overflow: 'auto' }}>
+              {topUsers.map((topUser) => {
+                return (
+                  <div
+                    key={topUser.id}
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      width: '150px'
+                    }}
+                  >
+                    <img
+                      style={{ width: '120px', borderRadius: '120px', marginBottom: '5px' }}
+                      src={`https://randomuser.me/api/portraits/lego/${
+                        topUser.id % 9
+                      }.jpg`}
+                    />
+                    <div>
+                      <div className='text-ellipsis song-title'>
+                        {topUser.username}
+                      </div>
+                      <div style={{ fontSize: '12px' }}>
+                        Played {topUser.play_count} songs
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </section>
       </div>
     </div>
