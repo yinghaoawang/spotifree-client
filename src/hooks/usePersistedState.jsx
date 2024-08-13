@@ -5,7 +5,12 @@ const usePersistedState = (key, initialValue) => {
     const storedValue = localStorage.getItem(key);
     if (storedValue == 'undefined') return undefined;
     if (storedValue == 'null') return null;
-    return storedValue ? JSON.parse(storedValue) : initialValue;
+    try {
+      return storedValue ? JSON.parse(storedValue) : initialValue;
+    } catch (err) {
+      console.error(err);
+      return storedValue || initialValue;
+    }
   });
 
   useEffect(() => {
