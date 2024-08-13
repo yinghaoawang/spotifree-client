@@ -83,7 +83,7 @@ function SearchRaw() {
         </>
       )}
       {searchResults?.items?.length == 0 && <div>0 results found</div>}
-      {searchResults == null && <div>please search for something</div>}
+      {searchResults == null && <div>please search for something directly from yt</div>}
     </>
   );
 }
