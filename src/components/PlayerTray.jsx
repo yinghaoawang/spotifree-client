@@ -190,7 +190,7 @@ export default function PlayerTray() {
         }}
       >
         <div style={{ display: 'flex', width: '300px', gap: '10px' }}>
-          <img src={artSrc} />
+          <img width={100} height={100} src={artSrc} />
           <div
             style={{
               display: 'flex',

@@ -13,6 +13,9 @@ export default function Navbar() {
         <li>
           <Link to={`search`}>Search</Link>
         </li>
+        <li>
+          <Link to={`search_raw`}>Search Raw</Link>
+        </li>
       </ul>
       <ul>
         {user ? (

@@ -14,15 +14,53 @@ const useVideo = () => {
   } = useContext(SongContext);
   const fetch = useFetch();
 
-  const getDataFromSearchItem = (searchItem) => {
+  const getDataFromRawSearchItem = (searchItem) => {
     const artSrc = searchItem.snippet.thumbnails.default.url;
-    const { title, channelTitle } = searchItem.snippet;
+    const { title, artist } = searchItem.snippet;
     const { videoId } = searchItem.id;
 
-    return { title, channelTitle, artSrc, videoId };
+    return { title, artist, artSrc, videoId };
+  };
+
+  const getDataFromSearchItem = (searchItem) => {
+    const artSrc = searchItem.album?.images?.[0]?.url;
+    const artist =
+      searchItem?.artists?.length > 1
+        ? searchItem.artists.reduce(
+            (acc, e, i) =>
+              acc + e.name + (i != searchItem.artists.length - 1 ? ', ' : ''),
+            ''
+          )
+        : searchItem?.artists?.[0]?.name || 'N/A';
+    const { name: title } = searchItem;
+    const videoId = 0;
+
+    return { title, artist, artSrc, videoId };
+  };
+
+  const playVideoByIndex = async (videoId, artSrc, title, artist) => {
+    const searchQuery = `${title} - ${artist}`;
+    const searchRes = await fetch(
+      `${import.meta.env.VITE_APP_API_URL}/search/raw/${searchQuery}`
+    );
+    const searchJson = await searchRes.json();
+    const rawVideoId = searchJson?.data?.items?.[videoId]?.id?.videoId;
+    if (rawVideoId == null)
+      alert(`Unable to video ID for ${title} - ${artist}.`);
+    else playRawVideo(rawVideoId, artSrc, title, artist);
   };
 
   const playVideo = async (videoId, artSrc, title, artist) => {
+    if (videoId == null || parseInt(videoId) < 1000) {
+      playVideoByIndex(videoId, artSrc, title, artist);
+    } else {
+      console.log('vid', videoId);
+      playRawVideo(videoId, artSrc, title, artist);
+    }
+  };
+
+  const playRawVideo = async (videoId, artSrc, title, artist) => {
+    console.log(videoId);
     setVideoId(videoId);
     setSongVideoId(videoId);
     setArtSrc(artSrc);
@@ -51,15 +89,20 @@ const useVideo = () => {
     }
   };
 
-  const playSearchItem = async (searchItem) => {
-    const { videoId, artSrc, title, channelTitle } =
-      getDataFromSearchItem(searchItem);
+  const playSearchItem = async (searchItem, raw = true) => {
+    const { videoId, artSrc, title, artist } = raw
+      ? getDataFromRawSearchItem(searchItem)
+      : getDataFromSearchItem(searchItem);
 
-    playVideo(videoId, artSrc, title, channelTitle);
-    // const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+    playVideo(videoId, artSrc, title, artist);
   };
 
-  return { playSearchItem, getDataFromSearchItem, playVideo };
+  return {
+    playSearchItem,
+    getDataFromRawSearchItem,
+    getDataFromSearchItem,
+    playRawVideo
+  };
 };
 
 export default useVideo;

@@ -1,15 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import './index.css';
 import ErrorPage from './routes/Error';
 import Root from './Root';
 import Home from './routes/Home';
-import './index.css';
-import Search from './routes/Search';
-import { PlayerProvider } from './contexts/PlayerContext';
-import { SongProvider } from './contexts/SongContext';
 import RegisterPage from './routes/Register';
 import LoginPage from './routes/Login';
+import Search from './routes/Search';
+import SearchRaw from './routes/SearchRaw';
+import { PlayerProvider } from './contexts/PlayerContext';
+import { SongProvider } from './contexts/SongContext';
 import { UserProvider } from './contexts/UserContext';
 
 const router = createBrowserRouter([
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: 'search',
         element: <Search />
+      },
+      {
+        path: 'search_raw',
+        element: <SearchRaw />
       },
       {
         path: 'login',

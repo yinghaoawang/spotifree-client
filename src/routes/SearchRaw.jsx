@@ -3,14 +3,14 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
 import useVideo from '../hooks/useVideo';
 
-function Search() {
+function SearchRaw() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [searchResults, setSearchResults] = useState(null);
   const [searchParams] = useSearchParams();
 
   const fetch = useFetch();
-  const { getDataFromSearchItem, playSearchItem } = useVideo();
+  const { getDataFromRawSearchItem, playSearchItem } = useVideo();
 
   useEffect(() => {
     const sq = searchParams.get('q');
@@ -27,15 +27,14 @@ function Search() {
   const navigate = useNavigate();
 
   const search = async () => {
-    navigate(`/search?q=${searchQuery}`);
+    navigate(`/search_raw?q=${searchQuery}`);
     setIsSearching(true);
 
     const searchRes = await fetch(
-      `${import.meta.env.VITE_APP_API_URL}/search/track/${searchQuery}`
+      `${import.meta.env.VITE_APP_API_URL}/search/raw/${searchQuery}`
     );
     const searchJson = await searchRes.json();
-    console.log(searchJson);
-    setSearchResults(searchJson.data.tracks);
+    setSearchResults(searchJson.data);
     setIsSearching(false);
   };
 
@@ -57,15 +56,15 @@ function Search() {
       </form>
       {searchResults?.items?.length > 0 && (
         <>
-          <div>{searchResults.total} tracks found</div>
+          <div>{searchResults.pageInfo.totalResults} results found</div>
           <div>
             {searchResults.items.map((searchItem, index) => (
               <div
                 key={index}
                 style={{ display: 'flex', cursor: 'pointer' }}
-                onClick={() => playSearchItem(searchItem, false)}
+                onClick={() => playSearchItem(searchItem)}
               >
-                <img width={100} height={100} src={getDataFromSearchItem(searchItem).artSrc} />
+                <img src={getDataFromRawSearchItem(searchItem).artSrc} />
                 <div
                   style={{
                     display: 'flex',
@@ -74,9 +73,9 @@ function Search() {
                   }}
                 >
                   <h3 style={{ margin: 0 }}>
-                    {getDataFromSearchItem(searchItem).title}
+                    {getDataFromRawSearchItem(searchItem).title}
                   </h3>
-                  <div>{getDataFromSearchItem(searchItem).artist}</div>
+                  <div>{getDataFromRawSearchItem(searchItem).artist}</div>
                 </div>
               </div>
             ))}
@@ -89,4 +88,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default SearchRaw;

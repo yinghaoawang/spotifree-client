@@ -5,7 +5,7 @@ import useVideo from '../hooks/useVideo';
 function Root() {
   const [recentVideos, setRecentVideos] = useState([]);
   const [topUsers, setTopUsers] = useState([]);
-  const { playVideo } = useVideo();
+  const { playRawVideo } = useVideo();
   const fetch = useFetch();
 
   useEffect(() => {
@@ -56,7 +56,7 @@ function Root() {
                       cursor: 'pointer'
                     }}
                     onClick={() =>
-                      playVideo(
+                      playRawVideo(
                         recentVideo.id,
                         recentVideo.art_src,
                         recentVideo.title,
