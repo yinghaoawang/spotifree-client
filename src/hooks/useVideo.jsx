@@ -16,7 +16,8 @@ const useVideo = () => {
 
   const getDataFromRawSearchItem = (searchItem) => {
     const artSrc = searchItem.snippet.thumbnails.high.url;
-    const { title, artist } = searchItem.snippet;
+    const { title } = searchItem.snippet;
+    const artist = searchItem.snippet.channelTitle;
     const { videoId } = searchItem.id;
 
     return { title, artist, artSrc, videoId };
