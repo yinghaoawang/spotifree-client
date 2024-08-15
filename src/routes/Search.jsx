@@ -65,7 +65,10 @@ function Search() {
                 style={{ display: 'flex', cursor: 'pointer' }}
                 onClick={() => playSearchItem(searchItem, false)}
               >
-                <img width={100} height={100} src={getDataFromSearchItem(searchItem).artSrc} />
+                <img
+                  className='search-result'
+                  src={getDataFromSearchItem(searchItem).artSrc}
+                />
                 <div
                   style={{
                     display: 'flex',

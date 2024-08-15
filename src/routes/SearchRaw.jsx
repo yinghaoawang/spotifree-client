@@ -64,7 +64,10 @@ function SearchRaw() {
                 style={{ display: 'flex', cursor: 'pointer' }}
                 onClick={() => playSearchItem(searchItem)}
               >
-                <img src={getDataFromRawSearchItem(searchItem).artSrc} />
+                <img
+                  className='search-result'
+                  src={getDataFromRawSearchItem(searchItem).artSrc}
+                />
                 <div
                   style={{
                     display: 'flex',
@@ -83,7 +86,12 @@ function SearchRaw() {
         </>
       )}
       {searchResults?.items?.length == 0 && <div>0 results found</div>}
-      {searchResults == null && <div>please search for something directly from yt, use <Link to={`/search`}>Search</Link> for better results</div>}
+      {searchResults == null && (
+        <div>
+          please search for something directly from yt, use{' '}
+          <Link to={`/search`}>Search</Link> for better results
+        </div>
+      )}
     </>
   );
 }
