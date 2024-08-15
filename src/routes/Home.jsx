@@ -53,6 +53,7 @@ function Root() {
                       display: 'flex',
                       flexDirection: 'column',
                       width: '150px',
+                      height: '250px',
                       cursor: 'pointer'
                     }}
                     onClick={() =>
@@ -64,8 +65,11 @@ function Root() {
                       )
                     }
                   >
-                    <img style={{ width: '150px' }} src={recentVideo.art_src} />
-                    <div>
+                    <img
+                      style={{ height: '150px', width: '150px' }}
+                      src={recentVideo.art_src}
+                    />
+                    <div style={{marginTop: '8px'}}>
                       <div className='text-ellipsis song-title'>
                         {recentVideo.title}
                       </div>

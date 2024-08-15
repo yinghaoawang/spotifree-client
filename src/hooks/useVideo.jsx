@@ -15,7 +15,7 @@ const useVideo = () => {
   const fetch = useFetch();
 
   const getDataFromRawSearchItem = (searchItem) => {
-    const artSrc = searchItem.snippet.thumbnails.default.url;
+    const artSrc = searchItem.snippet.thumbnails.high.url;
     const { title, artist } = searchItem.snippet;
     const { videoId } = searchItem.id;
 

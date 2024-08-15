@@ -8,13 +8,13 @@ export default function Navbar() {
     <nav id='navbar' style={{ backgroundColor: 'black' }}>
       <ul>
         <li>
-          <Link to={``}>Home</Link>
+          <Link to={`/`}>Home</Link>
         </li>
         <li>
-          <Link to={`search`}>Search</Link>
+          <Link to={`/search`}>Search</Link>
         </li>
         <li>
-          <Link to={`search_raw`}>Search Raw</Link>
+          <Link style={{fontSize: '10px'}} to={`/search_raw`}>Search Raw</Link>
         </li>
       </ul>
       <ul>
@@ -35,10 +35,10 @@ export default function Navbar() {
         ) : (
           <>
             <li>
-              <Link to={`login`}>Log In</Link>
+              <Link to={`/login`}>Log In</Link>
             </li>
             <li>
-              <Link to={`register`}>Register</Link>
+              <Link to={`/register`}>Register</Link>
             </li>
           </>
         )}

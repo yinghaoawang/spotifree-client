@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
 import useVideo from '../hooks/useVideo';
 
@@ -83,7 +83,7 @@ function SearchRaw() {
         </>
       )}
       {searchResults?.items?.length == 0 && <div>0 results found</div>}
-      {searchResults == null && <div>please search for something directly from yt</div>}
+      {searchResults == null && <div>please search for something directly from yt, use <Link to={`/search`}>Search</Link> for better results</div>}
     </>
   );
 }
